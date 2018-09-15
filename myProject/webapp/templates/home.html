@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<style type="text/css">
+		button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+button:hover {
+    opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+	</style>
+</head>
+<body>
+<form action = "tp/" method="POST">
+	{% csrf_token %}
+	<!-- First Name:<br>
+	<input type="text" name="firstName" ></input>
+	<br>Roll:<br>
+	<input type="text" name="roll" ></input><br> -->
+	 <div class="clearfix">
+      <button type="signup" class="cancelbtn" name="login">Login</button>
+      <button type="login" class="signupbtn" name = "signup">Sign Up</button>
+    </div>
+</form>
+</body>
+</html>

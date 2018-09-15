@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Second page</title>
+
+	<style type="text/css">
+		.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+}
+
+.button1 {
+    background-color: #008CBA; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+
+}
+	</style>
+</head>
+<body>
+<form action = "tp/" method="POST">{% csrf_token %}
+	First Name:<br>
+	<input type="text" name="firstName" ></input>
+	<br>Roll:<br>
+	<input type="text" name="roll" ></input><br>
+	<button class = "button" type="signup" name="signup" value="Signup"></input>
+		<br>
+	<button class ="button button1" type="login" name="login" value="Login"></button>
+</form>
+</body>
+</html>
