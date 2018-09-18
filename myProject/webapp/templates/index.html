@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Index</title>
+	<style type="text/css">
+		button {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+	
+	h2{
+		text-align: center;
+	}
+button:hover {
+    opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.loginbtn {
+    padding: 14px 20px;
+    background-color: green;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.loginbtn {
+  float: left;
+  width: 100%;
+}
+	</style>
+</head>
+<body>
+	<h1>School Management System</h1>
+<form action = "home" method="POST">
+	{% csrf_token %}
+	<!-- First Name:<br>
+	<input type="text" name="firstName" ></input>
+	<br>Roll:<br>
+	<input type="text" name="roll" ></input><br> -->
+	 <div class="clearfix">	 	
+      <button type="signup" class="loginbtn" name="admin"><b><h3>Admin</h3></b></button>
+    </div><br><br><br><br>
+     <div class="clearfix">	 	
+      <button type="signup" class="loginbtn" name="student"><b><h3>Student</h3></b></button>
+    </div><br><br><br><br>
+     <div class="clearfix">	 	
+      <button type="signup" class="loginbtn" name="teacher"><b><h3>Teacher</h3></b></button>
+    </div><br><br><br><br>
+     <div class="clearfix">	 	
+      <button type="signup" class="loginbtn" name="parent"><b><h3>Parent</h3></b></button>
+    </div><br><br><br><br>
+
+</form>
+</body>
+</html>

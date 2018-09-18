@@ -1,8 +1,22 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		
-	</head>
-	<body>
-		<h1>Heya, It worked</h1>
-	</body>
+<head>
+	<title>Works</title>
+</head>
+<body>
+	<select id="ddlViewBy" onchange="run()">
+  <option value="1">test1</option>
+  <option value="2">test2</option>
+  <option value="3">test3</option>
+</select>
+<p id = "print"></p>
+<script type="text/javascript">
+	function run(){
+		var e = document.getElementById("ddlViewBy");
+		var strUser = e.options[e.selectedIndex].text;
+		document.getElementById("print").innerHTML = strUser;
+	}
+	
+</script>
+</body>
 </html>

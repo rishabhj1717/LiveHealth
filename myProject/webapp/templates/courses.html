@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Courses page</title>
+</head>
+<body>
+<form action = "courses" method="POST">{% csrf_token %}
+	<input type="text" name="dept1"></input>
+	<input type = "text" name="dept2"></input>
+	<input type="submit" name = "submit"></input>
+</form>
+</body>
+</html>

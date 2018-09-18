@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Course</title>
+
+<!-- 	<script type="text/javascript">
+		var data = {{json|safe}}
+    	var dept = data[0]["pk"]
+    	document.getElementById('output').innerHTML = dept;
+	</script>
+ -->
+
+</head>
+<body>
+<p id="result"></p>
+<textarea cols="40" id="SearchText" rows="1"></textarea>
+
+</div>
+<button onclick="myFunction()" type="button">Submit!</button>
+</div>
+<script>
+function myFunction() {
+    var result = document.getElementById("SearchText").value;
+    var data = {{json|safe}}
+    var name = [];
+    for(var i=0;i<data.length;i++){
+    	name[i] = data[i]["pk"]
+    }
+	document.getElementById("result").innerHTML = name;
+}
+</script>
+
+</div>
+
+</body>
+<html>

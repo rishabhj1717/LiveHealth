@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+button:hover {
+    opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signinbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+    padding: 16px;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+    .cancelbtn, .signinbtn {
+       width: 100%;
+    }
+}
+</style>
+ <script type="text/javascript">
+  function formvalidator()
+  {
+    var em = document.forms["form1"]["email"].value;
+    var atpos = em.indexOf("@");
+    var dotpos = em.lastIndexOf(".");
+    if(em == null || em=="")
+    {
+      alert("Email field must not be empty");
+      document.form1.email.focus();
+      return false;
+    } 
+    if (atpos<1 || dotpos<atpos+2 || dotpos+2>=em.length)
+    {
+      alert("Enter proper e-mail address");
+      document.form1.email.focus();
+      return false;
+    }
+
+    var password = document.forms["form1"]["password"].value; 
+    if(document.form1.password.value == "" ||document.form1.password.value == null)
+    {
+      alert("*Please Enter Password");
+      document.form1.password.focus();
+      return false;
+    }
+    return(true);
+  }
+
+</script>
+<body>
+
+<form name="form1" style="border:1px solid #ccc" onsubmit="return formvalidator();" method = "POST"  action="adminsignin">
+    {% csrf_token %}
+  <div class="container">
+    <h3>Sign In</h3>
+    <p>Please fill the details to Sign In.</p>
+    <hr>
+    <label for="usename"><b>Username</b></label>
+    <input type="text" name="admin" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" name="password" required>
+
+
+
+    <div class="clearfix">
+      <button type="signin" class="cancelbtn" name="cancel">Cancel</button>
+      <button type="login" class="signinbtn" name = "login">Sign In</button>
+    </div>
+  </div>
+</form>
+
+</body>
+</html>

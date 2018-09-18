@@ -72,7 +72,6 @@ button:hover {
 }
 </style>
 
-
 <script type="text/javascript">
  function formvalidator()
  {
@@ -100,7 +99,38 @@ button:hover {
     return false;
   }
 
- 
+  if(document.form1.dept.value == "" ||document.form1.dept.value == null)
+  {
+    alert("*Please Enter Department");
+    document.form1.dept.focus();
+    return false;
+  }
+  else
+  {
+    if(!(document.form1.dept.value.match(letters)))
+    {
+      alert("*Only Alphabets Are Allowed In Department Name");
+      document.form1.dept.focus();
+      return false;
+    }
+  }
+
+  if(document.form1.course.value == "" ||document.form1.course.value == null)
+  {
+    alert("*Please Enter Course");
+    document.form1.course.focus();
+    return false;
+  }
+  else
+  {
+    if(!(document.form1.course.value.match(letters)))
+    {
+      alert("*Only Alphabets Are Allowed In Course Name");
+      document.form1.course.focus();
+      return false;
+    }
+  }
+
   var em = document.forms["form1"]["email"].value;
   var atpos = em.indexOf("@");
   var dotpos = em.lastIndexOf(".");
@@ -127,40 +157,77 @@ button:hover {
   } 
   return(true);
 
-  
+  re = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/;
+
+    if(form1.date.value != '') {
+      if(regs = form1.date.value.match(re)) {
+        // day value between 1 and 31
+        if(regs[3] < 1 || regs[3] > 31) {
+          alert("Invalid value for day: " + regs[3]);
+          form1.date.focus();
+          return false;
+        }
+        // month value between 1 and 12
+        if(regs[2] < 1 || regs[2] > 12) {
+          alert("Invalid value for month: " + regs[2]);
+          form1.date.focus();
+          return false;
+        }
+        // year value between 1902 and 2018
+        if(regs[1] < 1902 || regs[1] > (new Date()).getFullYear()) {
+          alert("Invalid value for year: " + regs[1] + " - must be between 1902 and " + (new Date()).getFullYear());
+          form1.date.focus();
+          return false;
+        }
+      } else {
+        alert("Invalid date format: " + form1.date.value);
+        form1.date.focus();
+        return false;
+      }
+    }
 }
 
 </script>
 
 
-
 <body>
 
-<form  style="border:1px solid #ccc" method = "POST"  action="signup">
+<form name="form1" style="border:1px solid #ccc" method = "POST" onsubmit="return formvalidator();"  action="studentsignup">
     {% csrf_token %}
   <div class="container">
     <h1>Sign Up</h1>
     <p>Please fill in this form to create an account.</p>
     <hr>
-
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
+    <label for="name"><b>Name</b></label>
+    <input type="text" placeholder="Enter Name" name="name" required>
 
     <label for="phone"><b>Phone</b></label>
     <input type="text" placeholder="Enter Number" name="phone" required>
 
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
     <label for="address"><b>Address</b></label>
     <input type="text" placeholder="Address" name="address" required>
-    
-    <label for="name"><b>Name</b></label>
-    <input type="text" name="name" required>
 
-    <label for="usename"><b>Username</b></label>
+    <label for="dept"><b>Department</b></label>
+    <input type="text" placeholder="Enter Department" name="dept" required>
+    
+    <label for="course"><b>Course</b></label>
+    <input type="text" placeholder="Enter Course" name="course" required>
+    
+    <label for="doj"><b>Date of Joining</b></label>
+    <input id = "start_date" type="date" placeholder="yyyy-mm-dd" name="start_date" required>
+
+    <label for="puname"><b>Parents ID</b></label>
+    <input type="text" placeholder="Enter ID" name="puname" required>
+
+<!--     <label for="usename"><b>Username</b></label>
     <input type="text" name="uname" required>
 
     <label for="password"><b>Password</b></label>
     <input type="password" name="pwd" required>
-
+ -->
 
 
     <div class="clearfix">

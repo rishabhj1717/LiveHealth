@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Live School</title>
+	<style type="text/css">
+		button {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+	
+	h1{
+		text-align: center;
+	}
+button:hover {
+    opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.adminbtn {
+    padding: 14px 20px;
+    background-color: green;
+}
+
+/* Float cancel and admin buttons and add an equal width */
+.adminbtn {
+  float: left;
+  width: 100%;
+}
+	</style>
+</head>
+<body>
+	<h1>Admin Work</h1>
+<form action = "adminindex" method="POST">
+	{% csrf_token %}
+	 <div class="clearfix">	 	
+      <button type="admin" class="adminbtn" name="enstudent"><b><h3>Enroll Student</h3></b></button>
+    </div><br><br><br><br>
+     <div class="clearfix">	 	
+      <button type="admin" class="adminbtn" name="enteacher"><b><h3>Enroll Teacher</h3></b></button>
+    </div><br><br><br><br>
+     <div class="clearfix">	 	
+      <button type="admin" class="adminbtn" name="markupdate"><b><h3>Marks Update</h3></b></button>
+    </div><br><br><br><br>
+     <div class="clearfix">	 	
+      <button type="admin" class="adminbtn" name="attupdate"><b><h3>Attendence Update</h3></b></button>
+    </div><br><br><br><br>
+     <div class="clearfix">   
+      <button type="admin" class="adminbtn" name="setexam"><b><h3>Set An Exam</h3></b></button>
+    </div><br><br><br><br>
+
+    <div class="clearfix">   
+      <button type="admin" class="adminbtn" name="deleteStudent"><b><h3>Delete a student</h3></b></button>
+    </div><br><br><br><br>
+</form>
+</body>
+</html>
