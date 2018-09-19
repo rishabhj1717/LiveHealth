@@ -13,11 +13,13 @@ urlpatterns = [
 	url(r'^studentlogin$',views.studentLogin),
 	url(r'^teachersignup',views.registerTeacher),
 	url(r'^teachersignin$',views.teacherLogin),
-	url(r'^marks',views.updateMarks),
-	url(r'^attendance',views.markAttendance),
+	url(r'^marks$',views.updateMarks),
+	url(r'^attendance$',views.markAttendance),
 	url(r'^login$',views.log_in),
 	url(r'^dept$',views.deptinfo),
 	url(r'^courses$',views.courses_subjects),
 	url(r'^parent$',views.parControl),
-	url(r'^deleteStudent$',views.deleteStudent)
+	url(r'^deleteStudent$',views.deleteStudent),
+	url(r'^setexam$',views.setExam),
+	url(r'^attendance1$',views.markingAtt),
 ]

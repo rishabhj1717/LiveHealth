@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Parent Information</title>
+</head>
+<body>
+
+	<h2>Parent Information</h2>
+<hr>
+	Name of Parent : 
+<p id="demo0"></p><br>
+	Parent Email: 
+<p id="demo1"></p><br>
+	Parent Phone : 
+<p id="demo2"></p><br>
+	Child info : 
+<p id="demo3"></p><br>
+	 Child Info
+<p id="demo4"></p><br>
+	Child Info: 
+<p id="demo5"></p><br>
+	Child Info : 
+<p id="demo6"></p><br>
+
+<script>
+//var myJSON /*= '{"name":"John", "age":31, "city":"New York"}';*/;
+var myObj = {{parent|safe}}
+var child = {{json|safe}}
+/*x1 = myObj.name;
+x2 = myObj.dept;
+x3 = myObj.course;
+x4 = myObj.semester;
+x5 = myObj.attendence;
+x6 = myObj.marks;
+*/
+document.getElementById("demo0").innerHTML = myObj[0]["fields"]["name"];
+document.getElementById("demo1").innerHTML = myObj[0]["fields"]["emailP"];
+document.getElementById("demo2").innerHTML =myObj[0]["fields"]["phone"];
+for(var i=3;i<child.length+3;i++){
+	var j = i.toString();
+	document.getElementById("demo"+j).innerHTML =JSON.stringify(child,null,2);
+}
+
+</script>
+</body>
+</html>

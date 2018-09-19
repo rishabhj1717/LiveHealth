@@ -12,7 +12,22 @@ my_div.innerHTML = my_div.innerHTML +"<br>Enter Roll No :<input type='text' name
 <body>
 <form name="form" action="marks" method="POST">
 	{% csrf_token %}
+<!-- Enter Roll No :<input type="text" name="roll">   Enter Marks<input type="text" name="marks">
+ -->
+<br><br>
+    <label for="course"><b>Course ID</b></label>
+    <input type="text" placeholder="Enter Course ID" name="course" required>
+	<br><br>
+	 <label for="semester"><b>Semester</b></label>
+    <input type="text" placeholder="Enter Semester" name="sem" required>
+
+    <label for="subject"><b>Subject</b></label>
+    <input type="text" placeholder="Enter Subject" name="subject" required>
+<br><br>
+
 Enter Roll No :<input type="text" name="roll">   Enter Marks<input type="text" name="marks">
+
+<br><br>
 <!-- <input type="button" value="test" onClick="changeIt()"> -->
 <input type = "submit" name = "submit" value = "Submit"></input>
 <div id="my_div"></div>

@@ -26,7 +26,7 @@ class Student(models.Model):
 	puname = models.ForeignKey(Parent,on_delete = models.CASCADE, default='0')
 	sem = models.IntegerField(default=1,blank=False,null=False)
 	div = models.CharField(max_length=2,default='A')
-	marks = models.IntegerField(default=0,blank=True,null=True)
+	#marks = models.IntegerField(default=0,blank=True,null=True)
 	attendance = models.DecimalField(decimal_places=2,max_digits=5, default = 0)
 
 
@@ -59,3 +59,13 @@ class TeacherResp(models.Model):
 	subj = models.CharField(max_length=100)
 	div = models.CharField(max_length=2)
 	isExam = models.IntegerField(default=0,blank=False,null=False)
+
+class studMarks(models.Model):
+	examid = models.CharField(max_length=50)
+	roll = models.ForeignKey(Student,max_length=10, on_delete = models.CASCADE)
+	marks = models.IntegerField(default=0,blank=True,null=True)
+
+class Attendance(models.Model):
+	lecId = models.CharField(max_length=50,default='0')
+	roll = models.CharField(max_length=10)
+	curratt = models.DecimalField(decimal_places=2,max_digits=5,default=0)

@@ -1,0 +1,142 @@
+	<html>
+	<head>
+	<title>Exam to be set here</title>
+	</head>
+	<style>
+	body {font-family: Arial, Helvetica, sans-serif;}
+	* {box-sizing: border-box}
+
+	/* Full-width input fields */
+	input[type=text], input[type=password] {
+	    width: 100%;
+	    padding: 15px;
+	    margin: 5px 0 22px 0;
+	    display: inline-block;
+	    border: none;
+	    background: #f1f1f1;
+	}
+
+	input[type=text]:focus, input[type=password]:focus {
+	    background-color: #ddd;
+	    outline: none;
+	}
+
+	hr {
+	    border: 1px solid #f1f1f1;
+	    margin-bottom: 25px;
+	}
+
+	/* Set a style for all buttons */
+	button {
+	    background-color: #4CAF50;
+	    color: white;
+	    padding: 14px 20px;
+	    margin: 8px 0;
+	    border: none;
+	    cursor: pointer;
+	    width: 100%;
+	    opacity: 0.9;
+	}
+
+	button:hover {
+	    opacity:1;
+	}
+
+	/* Extra styles for the cancel button */
+	.cancelbtn {
+	    padding: 14px 20px;
+	    background-color: #f44336;
+	}
+
+	/* Float cancel and signup buttons and add an equal width */
+	.cancelbtn, .submitbtn {
+	  float: left;
+	  width: 50%;
+	}
+
+	/* Add padding to container elements */
+	.container {
+	    padding: 16px;
+	}
+
+	/* Clear floats */
+	.clearfix::after {
+	    content: "";
+	    clear: both;
+	    display: table;
+	}
+
+	/* Change styles for cancel button and signup button on extra small screens */
+	@media screen and (max-width: 300px) {
+	    .cancelbtn, .signinbtn {
+	       width: 100%;
+	    }
+	}
+	</style>
+<script type="text/javascript">
+ function formvalidator()
+ {
+  var letters= /^[a-zA-Z]+$/;
+  var number= /^[0-9]+$/;
+  
+  if(document.form1.subject.value == "" ||document.form1.subject.value == null)
+  {
+    alert("*Please Enter Subject");
+    document.form1.course.focus();
+    return false;
+  }
+  else
+  {
+    if(!(document.form1.subject.value.match(letters)))
+    {
+      alert("*Only Alphabets Are Allowed In subject Name");
+      document.form1.subject.focus();
+      return false;
+    }
+  }
+
+  if(document.form1.sem.value == "" ||document.form1.sem.value == null)
+  {
+    alert("*Please Enter Semester");
+    document.form1.sem.focus();
+    return false;
+  }
+  else
+  {
+    if(!(document.form1.sem.value.match(number)))
+    {
+      alert("*Only Numbers Are Allowed In Semester");
+      document.form1.sem.focus();
+      return false;
+    }
+  }
+
+}
+
+</script>
+
+	<body>
+	<form name="form1" style="border:1px solid #ccc" onsubmit="return formvalidator();" method = "POST"  action="setexam">
+	    {% csrf_token %}
+	      <div class="container">
+	<h2>Set an Exam</h2>
+	<hr>
+	<br><br>
+    <label for="course"><b>Course ID</b></label>
+    <input type="text" placeholder="Enter Course ID" name="course" required>
+	<br><br>
+	 <label for="semester"><b>Semester</b></label>
+    <input type="text" placeholder="Enter Semester" name="sem" required>
+
+    <label for="subject"><b>Subject</b></label>
+    <input type="text" placeholder="Enter Subject" name="subject" required>
+
+	<br><br>
+	<div class="clearfix">
+	      <button type="signup" class="cancelbtn" name="cancel">Cancel</button>
+	      <button type="submit" class="submitbtn" name = "submit">Submit</button>
+	    </div>
+	</div>
+	<form>
+	</body>
+	</html>

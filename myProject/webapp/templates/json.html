@@ -22,11 +22,13 @@
 function myFunction() {
     var result = document.getElementById("SearchText").value;
     var data = {{json|safe}}
-    var name = [];
-    for(var i=0;i<data.length;i++){
-    	name[i] = data[i]["pk"]
-    }
-	document.getElementById("result").innerHTML = name;
+    var data1 = {{parent|safe}}
+
+    // var name = [];
+    // for(var i=0;i<data.length;i++){
+    // 	name[i] = data[i]["pk"]
+    // }
+	document.getElementById("result").innerHTML = JSON.stringify(data,null,2);
 }
 </script>
 

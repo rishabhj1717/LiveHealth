@@ -21,7 +21,7 @@ from django.conf.urls import url
 urlpatterns = [
     path('admin', admin.site.urls),
     path('', include('webapp.urls')),
-    url(r'^test$',views.registerTeacher)
+    url(r'^test$',views.markingAtt)
     # path('', views.index),
     # path('tp/',views.detail),
     # path('signup/',views.signup)

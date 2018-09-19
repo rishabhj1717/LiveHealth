@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>Dynamic Form</title>
+<!-- <script language="javascript">
+function changeIt()
+{
+var i = 1;
+my_div.innerHTML = my_div.innerHTML +"<br>Enter Roll No :<input type='text' name='mytext'+ i> Enter Lectures Attend : <input type='text' name='mytext'+ i> Total Lectures : <input type='text' name='mytext'+ i><br>"
+}
+</script> -->
+</head>
+<body>
+
+<form action="attendance1" method="POST">
+	{% csrf_token %}
+
+ TeacherId:<input type="text" name="teacher">
+<br><br>
+
+Subject :<input type="text" name="subject">
+<br><br>
+
+<br><br>	
+Enter Roll No :<input type="text" name="roll">   Enter Lecture Attend : <input type="text" name="lecatt">   Total Lectures : <input type="text" name="totatt">
+<input type="submit" value="submit" name = "submit"></input>
+<div id="my_div"></div>
+<p id = "print"></p>
+</form>
+</body>
+</html>
