@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Try,Parent,Department,Courses,Student,Teacher,TeacherResp,Subjects,studMarks,Attendance
+from .models import Try,Parent,Department,Courses,Student,Teacher,TeacherResp,Subjects,studMarks,Attendance,Exam,StudentMarks,DailyAttendance
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 import logging
@@ -48,13 +48,31 @@ def adminControl(request):
 		}
 		return render(request,"teachersignup.html",context)
 	elif request.method == "POST" and 'markupdate' in request.POST:
-		return render(request,"marks.html")
+		return render(request,"updatemarks.html")
 	elif request.method == "POST" and 'attupdate' in request.POST:
-		return render(request,"att1.html")
+		return render(request,"atttemp.html")
 	elif request.method == "POST" and 'deleteStudent' in request.POST:
 		return render(request,"delete.html")
 	elif request.method == "POST" and 'setexam' in request.POST:
 		return render(request,"setexam.html")
+	elif request.method == "POST" and 'adddept' in request.POST:
+		return render(request,"dept.html")
+	elif request.method == "POST" and 'addcourse' in request.POST:
+		obj = Department.objects.values('deptName')
+		jsonmsg={}
+		arr = []
+		j=0
+		for i in obj:
+			arr.append(obj[j]['deptName'])
+			j=j+1
+		#print(arr)
+		jsonmsg['departments']=arr
+		json_loads = json.dumps(jsonmsg)
+		context = {
+		'jsondept':json_loads
+		}
+		print(json_loads)
+		return render(request,"addCourse.html",context)
 
 
 
@@ -478,3 +496,126 @@ def markingAtt(request):
 # 		return render(request,'att1.html')
 # 	return
 
+#-----------------------------------------------------------------------------------------------
+
+def exam(request):
+	if request.method == "POST":
+		eid=1
+		sem = request.POST['sem']
+		div=request.POST['div']
+		subj=request.POST['subject']
+		courseid = 'CUG'
+		#today = str(date.today())
+		doe = request.POST['date']
+		print(doe)
+		doe1=""
+		Exam.objects.create(eid=eid,sem=sem,subj=subj,div=div,doexam=doe,courseId=courseid)
+		d = Exam.objects.filter(eid=eid)
+		doe1 = d[0].doexam
+		print(doe1)
+		print("Created successfully")
+		return render(request,'adminindex.html')
+	else:
+		return render(request,'adminindex.html')
+
+def marksUpdate(request):
+	if request.method=='POST':
+		roll = request.POST['roll']
+		subject=request.POST['subject']
+		doe = '2018-09-19'
+		eid=1
+		marks = request.POST['marks']
+		if StudentMarks.objects.filter(roll=roll,subject=subject).exists():
+			d = StudentMarks.objects.get(roll=roll,subject=subject)
+			context={
+			'json':{'marks':d.marks,'message':'Marks already entered'}
+			}
+			return render(request,'updatemarks.html',context)
+		else:
+			isUpdated=1
+			isPresent  =1
+			StudentMarks.objects.create(roll=roll,subject=subject,marks=marks,isUpdated=isUpdated,isPresent=isPresent,eid=Exam.objects.get(eid=eid),doexam=doe1)
+			return render(request,'adminindex.html')
+
+# def save_events_json(request):
+#     if request.is_ajax():
+#         if request.method == 'POST':
+#             print 'Raw Data: "%s"' % request.body   
+#     return HttpResponse("OK")
+
+# 	# function myfunction(){
+# 	# var obj={}
+# 	# var course = document.getE
+	
+
+	# def attendancePerDay(request):
+	# 	if request.method == 'POST':
+	# 		roll = request.POST['rollno']
+	# 		course = 
+
+def attendancePerDay(request):
+	if request.method=='POST':
+		tod_day = str(date.today())
+		isPresent = request.POST['present']
+		course = request.POST['course']
+		roll = request.POST['rollno']
+		subject = request.POST['subject']
+		if DailyAttendance.objects.filter(course=course,subject=subject,roll=roll).exists():
+			return HttpResponse('<h1>Attendance has already been taken ')
+		else:
+			DailyAttendance.objects.create(day=tod_day,isPresent=isPresent,course=course,roll=roll,subject=subject)
+
+def addDepartment(request):
+	if request.method == "POST":
+		obj = request.POST
+		deptName = obj['dept']
+		deptObj = Department.objects.all()
+		cnt = Department.objects.all().count()
+		jsonmsg = {}
+		if Department.objects.filter(deptName=deptName).exists():
+			jsonmsg['isPresent']=0
+			jsonmsg['message']='Department already exists'
+			json_data = json.dumps(jsonmsg)
+			context = {
+			"json":json_data
+			}
+			print(context)
+			return render(request,'dept.html',context)
+		else:
+			jsonmsg['isPresent']=1
+			jsonmsg['message']='Successfull'
+			json_data = json.dumps(jsonmsg)
+			context = {
+			"json":json_data
+			}
+			print(context)
+			Department.objects.create(deptId=cnt+1,deptName=deptName)
+			return render(request,'dept.html',context)
+
+def addCourse(request):
+	if request.method == "POST":
+		obj = request.POST
+		deptName = obj['dept']
+		courseName = obj['course']
+		courseName = deptName[0]+courseName
+		sem = obj['sem']
+		jsonmsg = {}
+		if Courses.objects.filter(deptName=deptName,courseName=courseName).exists():
+			jsonmsg['isPresent']=0
+			jsonmsg['message']='Course Already exists'
+			json_data = json.dumps(jsonmsg)
+			context = {
+			"json":json_data
+			}
+			return render(request,'addCourse.html',context)
+		else:
+			jsonmsg['isPresent']=1
+			jsonmsg['message']='Successful'
+			json_data = json.dumps(jsonmsg)
+			context = {
+			"json":json_data
+			}
+			Courses.objects.create(courseName=courseName,deptName=Department.objects.get(deptName=deptName),sem=sem)
+			return render(request,'adminindex.html',context)
+
+# def addSubject(request):

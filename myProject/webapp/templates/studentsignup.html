@@ -84,7 +84,7 @@ button:hover {
   }
   else
   {
-    if(!(document.form1.name.value.match(letters)))
+    if(!(document.form1.name.value.match(letters)) && !(document.form1.name.value.match(" ")))
     { 
       alert("*Only Alphabets Are Allowed");
       document.form1.name.focus();

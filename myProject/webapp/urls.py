@@ -2,7 +2,7 @@ from django.urls import path,re_path
 from django.conf.urls import url,include
 
 from . import views
-
+app_name = 'webapp'
 urlpatterns = [
 	url(r'^$',views.index,name="index"),
 	url(r'^adminsignin',views.adminSignup),
@@ -16,10 +16,11 @@ urlpatterns = [
 	url(r'^marks$',views.updateMarks),
 	url(r'^attendance$',views.markAttendance),
 	url(r'^login$',views.log_in),
-	url(r'^dept$',views.deptinfo),
+	url(r'^dept$',views.addDepartment),
 	url(r'^courses$',views.courses_subjects),
 	url(r'^parent$',views.parControl),
 	url(r'^deleteStudent$',views.deleteStudent),
-	url(r'^setexam$',views.setExam),
+	url(r'^setexam$',views.exam),
 	url(r'^attendance1$',views.markingAtt),
+	url(r'^addcourses$',views.addCourse),
 ]

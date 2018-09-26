@@ -31,7 +31,7 @@ class Student(models.Model):
 
 
 class Department(models.Model):
-	deptId = models.IntegerField(default=0)
+	deptId = models.IntegerField(default=1)
 	deptName = models.CharField(max_length=100, primary_key=True)
 
 class Courses(models.Model):
@@ -69,3 +69,28 @@ class Attendance(models.Model):
 	lecId = models.CharField(max_length=50,default='0')
 	roll = models.CharField(max_length=10)
 	curratt = models.DecimalField(decimal_places=2,max_digits=5,default=0)
+
+class Exam(models.Model):
+	eid = models.AutoField(primary_key=True,default=1)
+	courseId = models.CharField(max_length=10)
+	subj = models.CharField(max_length=50)
+	sem = models.IntegerField(default=0)
+	div = models.CharField(max_length=1)
+	doexam = models.DateField()
+
+class StudentMarks(models.Model):
+	eid = models.ForeignKey(Exam,default=1,on_delete = models.CASCADE)
+	roll = models.CharField(max_length=10)
+	subject = models.CharField(max_length=50)
+	marks = models.IntegerField(default=0)
+	isUpdated = models.IntegerField(default=0)
+	isPresent = models.IntegerField(default=0)
+	doexam = models.DateField(default='2018-09-19')
+
+# class StudentMarks(models.Model):
+class DailyAttendance(models.Model):
+	day = models.DateField()
+	isPresent = models.IntegerField(default=0)
+	course = models.CharField(max_length=10,default='0')
+	roll = models.CharField(max_length=10,default='0')
+	subject = models.CharField(max_length=50,default='0')

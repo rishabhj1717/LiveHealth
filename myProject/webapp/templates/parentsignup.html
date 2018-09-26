@@ -71,6 +71,69 @@ button:hover {
     }
 }
 </style>
+
+
+<script type="text/javascript">
+ function formvalidator()
+ {
+  var letters= /^[a-zA-Z]+$/;
+  if(document.form1.name.value == "" ||document.form1.name.value == null)
+  {
+    alert("*Please Enter Name");
+    document.form1.name.focus();
+    return false;
+  }
+  else
+  {
+    if(!(document.form1.name.value.match(letters)) && !(document.form1.name.value.match(" ")))
+    { 
+      alert("*Only Alphabets Are Allowed in Name");
+      document.form1.name.focus();
+      return false;
+    }
+  }
+
+  if(document.form1.address.value == "" ||document.form1.address.value == null)
+  {
+    alert("*Please Enter Address");
+    document.form1.address.focus();
+    return false;
+  }
+
+ 
+  var em = document.forms["form1"]["email"].value;
+  var atpos = em.indexOf("@");
+  var dotpos = em.lastIndexOf(".");
+  if(em == null || em=="")
+  {
+    alert("Email field must not be empty");
+    document.form1.email.focus();
+    return false;
+  } 
+  if (atpos<1 || dotpos<atpos+2 || dotpos+2>=em.length)
+  {
+    alert("Enter proper e-mail address");
+    document.form1.email.focus();
+    return false;
+  }
+
+  var mn = document.forms["form1"]["phone"].value;
+  var mobNumLen = document.forms["form1"]["phone"].value.length;
+  if(mn == "" || mn == null || isNaN(mn) || mn.length < 10 || mn.length >10 )
+  {
+    alert("*Please Enter Valid Mobile Number");
+    document.form1.phone.focus() ;
+    return false;
+  } 
+  return(true);
+
+  
+}
+
+</script>
+
+
+
 <body>
 
 <form  style="border:1px solid #ccc" method = "POST"  action="signup">{% csrf_token %}

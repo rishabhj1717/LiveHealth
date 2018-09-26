@@ -116,67 +116,41 @@
 </script>
 
 	<body>
-	<form name="form1" style="border:1px solid #ccc" onsubmit="return formvalidator();" method = "POST"  action="setexam">
+	<form name="form1" style="border:1px solid #ccc" onsubmit="return formvalidator();" method = "POST"  action="test">
 	    {% csrf_token %}
 	      <div class="container">
-	<h2>Set an Exam</h2>
-	div
-	doe
+	<h2>Marks Updatation</h2>
 	<hr>
 	<br><br>
-    <label for="course"><b>Course ID</b></label>
-    <input type="text" placeholder="Enter Course ID" name="course" id="course" required>
+	<p id='tptptp'></p>
+    <label for="roll"><b>Roll Number</b></label>
+    <input type="text" placeholder="Enter Roll Number" name="roll" id="roll" required>
 	<br><br>
-	 <label for="semester"><b>Semester</b></label>
-    <input type="text" placeholder="Enter Semester" name="sem" id="sem" required>
-    <br><br>
     <label for="subject"><b>Subject</b></label>
     <input type="text" placeholder="Enter Subject" name="subject" id="subj" required>
     <br><br>
-    <label for="div"><b>Division</b></label>
-    <input type="text" placeholder="Enter Division" name="div" id="div" required>
-	<br><br>
-    <label for="subject"><b>Date of Exam</b></label>
-     <input type="date" name="date" id="date" required>
+
+    <label for="marks"><b>Marks</b></label>
+    <input type="text" placeholder="Enter marks" name="marks" id="subj" required>
+    <br><br>
 
     <script type="text/javascript">
-
     function myfunction(){
-    	var myobj={};
-    	
-
-    	var course = document.getElementById('course');
-    	var sem = document.getElementById('sem');
-    	var subject = document.getElementById('subj');
-    	var div = document.getElementById('div');
-    	var date = document.getElementById('date');
-    	var newdate = date.split("/").reverse().join("-");
-		myobj["course"] = course;
-		myobj["sem"] = sem;
-		myobj["subj"] = subject;
-		myobj["div"] = div;
-		myobj["date"] = newdate;
-
-		$.ajax({
-    		url: '/event/save-json/',
-    		type: 'POST',
-    		contentType: 'application/json; charset=utf-8',
-    		data: $.toJSON(myobj),
-    		dataType: 'text',
-    		success: function(result) {
-        	alert(result.Result);
-    		}
-		});
-
-
-    }
+    	var data = {{json|safe}};
+    		document.getElementById('tptptp') = JSON.stringify(data,null,2)
+    	}
     </script>
 	<br><br>
 	<div class="clearfix">
 	      <button type="signup" class="cancelbtn" name="cancel">Cancel</button>
-	      <button type="submit" class="submitbtn" name = "submit" >Submit</button>
+	      <button type="submit" class="submitbtn" name = "submit" onclick= "myfunction()">Submit</button>
 	    </div>
 	</div>
 	<form>
 	</body>
 	</html>
+
+
+
+
+marks: message

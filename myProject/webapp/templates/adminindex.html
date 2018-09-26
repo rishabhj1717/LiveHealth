@@ -52,7 +52,22 @@ button:hover {
      <div class="clearfix">   
       <button type="admin" class="adminbtn" name="setexam"><b><h3>Set An Exam</h3></b></button>
     </div><br><br><br><br>
+      <button type="admin" class="adminbtn" name="adddept"><b><h3>Add a department</h3></b></button>
+    </div><br><br><br>
+     <button type="admin" class="adminbtn" name="addcourse"><b><h3>Add a course</h3></b></button>
+    </div><br><br><br><br>
+    <script type="text/javascript">
+      var data = {{json|safe}}
+        /*console.log(JSON.stringify(data))
+        alert(JSON.stringify(data))*/
 
+        if(data.isPresent == 0){
+          alert(data.message)
+        }
+        else if(data.isPresent == 1){
+          alert(data.message)
+        }
+    </script>
     <!-- <div class="clearfix">   
       <button type="admin" class="adminbtn" name="deleteStudent"><b><h3>Delete a student</h3></b></button>
     </div><br><br><br><br> -->

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dynamic populate</title>
+<script type="text/javascript">
+	function myfunction(){
+
+
+	var select = document.getElementById("selectNumber"); 
+	var options = ["1", "2", "3", "4", "5"]; 
+
+for(var i = 0; i < options.length; i++) {
+    /*var opt = options[i]*/;
+    var opt = document.createElement("option");
+    opt.innerHTML = options[i];
+    opt.value = options[i];
+    select.appendChild(opt);
+}
+
+}
+</script>
+</head>
+<body>
+<form id="myForm">
+  <select id="selectNumber" onchange="myfunction()">
+    <option>Choose a number</option>
+  </select>
+</form>
+</body>
+</html>
+
