@@ -72,6 +72,15 @@
 	       width: 100%;
 	    }
 	}
+
+	.error {
+    background-color: yellow;
+    text-align: center;
+    color: #af4c4c;
+    height: 38px;
+    font-size: 33px;
+    font-family: "Times New Roman", Times, serif;
+}
 	</style>
 <script type="text/javascript">
  function formvalidator()
@@ -122,7 +131,16 @@
 	<h2>Marks Updatation</h2>
 	<hr>
 	<br><br>
-	<p id='tptptp'></p>
+	 <div class='try1'>
+  {% if messages %}
+<div class='row'> 
+{% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
+<br><br>
     <label for="roll"><b>Roll Number</b></label>
     <input type="text" placeholder="Enter Roll Number" name="roll" id="roll" required>
 	<br><br>
@@ -134,23 +152,18 @@
     <input type="text" placeholder="Enter marks" name="marks" id="subj" required>
     <br><br>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
     function myfunction(){
     	var data = {{json|safe}};
     		document.getElementById('tptptp') = JSON.stringify(data,null,2)
     	}
-    </script>
+    </script> -->
 	<br><br>
 	<div class="clearfix">
 	      <button type="signup" class="cancelbtn" name="cancel">Cancel</button>
-	      <button type="submit" class="submitbtn" name = "submit" onclick= "myfunction()">Submit</button>
+	      <button type="submit" class="submitbtn" name = "submit">Submit</button>
 	    </div>
 	</div>
 	<form>
 	</body>
 	</html>
-
-
-
-
-marks: message

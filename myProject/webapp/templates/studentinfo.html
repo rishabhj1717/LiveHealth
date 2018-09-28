@@ -1,5 +1,6 @@
 <html>
 <head>
+	<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <title>Student Information</title>
 </head>
 <body>
@@ -38,7 +39,35 @@ document.getElementById("demo2").innerHTML = myObj[0]["fields"]["dept"]
 document.getElementById("demo3").innerHTML = myObj[0]["fields"]["course"];
 document.getElementById("demo4").innerHTML = myObj[0]["fields"]["sem"];
 document.getElementById("demo5").innerHTML = myObj[0]["fields"]["attendance"];
-document.getElementById("demo6").innerHTML = marksObj[0]["fields"]["marks"];
+/*document.getElementById("demo6").innerHTML = marksObj[0]['fields']['subject']*/
+var number_of_rows = marksObj.length;
+console.log(number_of_rows)
+if(number_of_rows==0){
+	document.getElementById("demo6").innerHTML = "Marks have not been updated yet"
+}
+else{
+
+
+var k = 0;
+var table_body = '<table border="1" id="example"><thead><tr><th>Subject</th><th>Marks</th></thead><tbody>';
+for(j in marksObj){
+	table_body+='<tr>';
+    table_body +='<td>';
+    table_body +=marksObj[k]["fields"].subject;
+    table_body +='</td>';
+                   
+    table_body +='<td>';
+    table_body +=marksObj[k]["fields"].marks;
+    table_body +='</td>';
+    table_body+='</tr>'
+    k++
+}
+table_body+='</tbody></table>';
+ $('#demo6').html(table_body);
+}
+/*document.getElementById("demo6").innerHTML = marksObj[0]['fields']['subject']*/
+
+/*marksObj[0]["fields"]["marks"];*/
 
 </script>
 </body>

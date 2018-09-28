@@ -1,6 +1,15 @@
 <html>
 	<head>
-		
+		<style type="text/css">
+			.error {
+    background-color: yellow;
+    text-align: center;
+    color: #af4c4c;
+    height: 38px;
+    font-size: 33px;
+    font-family: "Times New Roman", Times, serif;
+}
+		</style>
 	</head>
 	<body>
 		<form action="dept" method="POST">{% csrf_token %}
@@ -17,10 +26,24 @@
     	<input type="text" placeholder="Enter name of department" name="dept2" required>
  -->
  		<div id='TextBoxesGroup'>
+  
+ 			  <div class='try1'>
+  {% if messages %}
+<div class='row'> 
+{% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
+
   <div id="TextBoxDiv1">
     <!-- <label>Department ID : </label><input type='textbox' id='textbox1' name = 'deptid1' required>
     <label>Department Name 1: </label><input type='textbox' id='textbox1' name = 'dept1' required><br><br>
     <label>Department ID : </label><input type='textbox' id='textbox1' name = 'deptid2' required> -->
+
+
+
     <label>Department Name: </label><input type='textbox' id='textbox1' name = 'dept' required><br><br>
   </div>
 </div>	

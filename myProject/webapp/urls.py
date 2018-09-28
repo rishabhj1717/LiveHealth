@@ -5,7 +5,7 @@ from . import views
 app_name = 'webapp'
 urlpatterns = [
 	url(r'^$',views.index,name="index"),
-	url(r'^adminsignin',views.adminSignup),
+	url(r'^adminsignin$',views.adminSignup),
 	url(r'^home$',views.detail),
 	url(r'^adminindex$',views.adminControl),
 	url(r'^signup$',views.signup),
@@ -23,4 +23,7 @@ urlpatterns = [
 	url(r'^setexam$',views.exam),
 	url(r'^attendance1$',views.markingAtt),
 	url(r'^addcourses$',views.addCourse),
+	url(r'^atttest$',views.attendanceViewPerDay),
+	url(r'^try$',views.attendancePerDay),
+	url(r'^addsubject$',views.addSubject),
 ]

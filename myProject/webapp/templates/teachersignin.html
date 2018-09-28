@@ -40,6 +40,15 @@ button:hover {
     opacity:1;
 }
 
+.error {
+    background-color: yellow;
+    text-align: center;
+    color: #af4c4c;
+    height: 38px;
+    font-size: 33px;
+    font-family: "Times New Roman", Times, serif;
+}
+
 /* Extra styles for the cancel button */
 .cancelbtn {
     padding: 14px 20px;
@@ -109,6 +118,17 @@ button:hover {
     <h3>Sign In</h3>
     <p>Please fill the details to Sign In.</p>
     <hr>
+    <br><br>
+    <div class='Try1'>
+  {% if messages %}
+<div class='row'> 
+{% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
+    <br>
     <label for="usename"><b>Username</b></label>
     <input type="text" name="name" required>
 

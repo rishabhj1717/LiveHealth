@@ -47,17 +47,27 @@ button:hover {
       <button type="admin" class="adminbtn" name="markupdate"><b><h3>Marks Update</h3></b></button>
     </div><br><br><br><br>
      <div class="clearfix">	 	
-      <button type="admin" class="adminbtn" name="attupdate"><b><h3>Attendence Update</h3></b></button>
+      <button type="admin" class="adminbtn" name="attupdate"><b><h3>Mark Attendance</h3></b></button>
     </div><br><br><br><br>
      <div class="clearfix">   
       <button type="admin" class="adminbtn" name="setexam"><b><h3>Set An Exam</h3></b></button>
     </div><br><br><br><br>
       <button type="admin" class="adminbtn" name="adddept"><b><h3>Add a department</h3></b></button>
     </div><br><br><br>
-     <button type="admin" class="adminbtn" name="addcourse"><b><h3>Add a course</h3></b></button>
+     <button type="admin" class="adminbtn" name="addcourse" onclick="myfunction()"><b><h3>Add a course</h3></b></button>
+    </div><br><br><br><br>
+    <div class="clearfix">   
+      <button type="admin" class="adminbtn" name="viewAttendance"><b><h3>View Attendance</h3></b></button>
+    </div><br><br><br><br>
+    <div class="clearfix">   
+      <button type="admin" class="adminbtn" name="addSubjects"><b><h3>Add Subjects</h3></b></button>
+      <!-- <script type="text/javascript">
+    alert('{{message}}')
+  </script> -->
     </div><br><br><br><br>
     <script type="text/javascript">
-      var data = {{json|safe}}
+      
+        var data = {{json|safe}}
         /*console.log(JSON.stringify(data))
         alert(JSON.stringify(data))*/
 
@@ -67,6 +77,7 @@ button:hover {
         else if(data.isPresent == 1){
           alert(data.message)
         }
+  
     </script>
     <!-- <div class="clearfix">   
       <button type="admin" class="adminbtn" name="deleteStudent"><b><h3>Delete a student</h3></b></button>

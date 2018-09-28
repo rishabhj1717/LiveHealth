@@ -29,10 +29,10 @@
         'choice1':'Comp',
         'choice2':'IT',
         'choice3':'LOL'
-    }
-    var departments = {{jsondept|safe}}
-    var arr = departments['departments']
-    var list = document.getElementById('dept')
+    };
+    var departments = {{jsondept|safe}};
+    var arr = departments['departments'];
+    var list = document.getElementById('dept');
     for(var i=0;i<arr.length; i++){
         console.log(arr[i])
         var val = arr[i]
@@ -48,7 +48,7 @@
     </select>
     <br><br>
     <label>Course Name: </label><input type='textbox' id='textbox1' name = 'course' required><br><br>
-    <label>Semester : </label><input type='textbox' id='textbox1' name = 'sem' required>
+    <!-- <label>Semester : </label><input type='textbox' id='textbox1' name = 'sem' required> -->
 
   </div>
 </div>	
@@ -63,18 +63,19 @@
 
 		<script type="text/javascript">
 			//var arr = {};
-			function myfunction(){
-				var data = {{json|safe}}
-				/*console.log(JSON.stringify(data))
-				alert(JSON.stringify(data))*/
-				console.log(JSON.stringify(data,null,2))
+			/*function myfunction(){
+*/				var data = {{json|safe}}
+
 				if(data.isPresent == 0){
-					alert(data.message)
+                    alert(data.message)
+                    
+    }
+					
 				}
 				else if(data.isPresent == 1){
 					alert(data.message)
 				}
-			}
+			
 			
 
 			//arr.push(id);

@@ -72,6 +72,15 @@
 	       width: 100%;
 	    }
 	}
+
+	.error {
+    background-color: yellow;
+    text-align: center;
+    color: #af4c4c;
+    height: 38px;
+    font-size: 33px;
+    font-family: "Times New Roman", Times, serif;
+}
 	</style>
 <script type="text/javascript">
  function formvalidator()
@@ -120,8 +129,15 @@
 	    {% csrf_token %}
 	      <div class="container">
 	<h2>Set an Exam</h2>
-	div
-	doe
+	 <div class='try1'>
+  {% if messages %}
+<div class='row'> 
+{% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
 	<hr>
 	<br><br>
     <label for="course"><b>Course ID</b></label>

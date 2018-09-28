@@ -5,6 +5,14 @@
   float: left;
   width: 50%;
 }
+.error {
+    background-color: yellow;
+    text-align: center;
+    color: #af4c4c;
+    height: 38px;
+    font-size: 33px;
+    font-family: "Times New Roman", Times, serif;
+}
 		</style>
 	</head>
 	<body>
@@ -13,6 +21,17 @@
     <h1>Sign Up</h1>
     <p>Please fill in this form to create an account.</p>
     <hr>
+
+    <div class='try1'>
+  {% if messages %}
+<div class='row'> 
+{% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
+
     <label for="username"><b>Username</b></label>
     <input type="text" name="uname" required>
 

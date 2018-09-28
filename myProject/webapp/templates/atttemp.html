@@ -66,6 +66,14 @@
 	    display: table;
 	}
 
+	.error {
+    background-color: yellow;
+    text-align: center;
+    color: #af4c4c;
+    height: 38px;
+    font-size: 33px;
+    font-family: "Times New Roman", Times, serif;
+}
 	/* Change styles for cancel button and signup button on extra small screens */
 	@media screen and (max-width: 300px) {
 	    .cancelbtn, .signinbtn {
@@ -101,24 +109,50 @@
 </script>
 
 	<body>
-	<form name="form1" style="border:1px solid #ccc" onsubmit="return formvalidator();" method = "POST"  action="atttest">
+	<form name="form1" style="border:1px solid #ccc" onsubmit="return formvalidator();" method = "POST"  action="try">
 	    {% csrf_token %}
 	      <div class="container">
 	<h2>AttendanceView</h2>
 	<hr>
 	<br><br>
+	<div class='try1'>
+  {% if messages %}
+<div class='row'> 
+{% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
+	<br><br>
     <label for="rollno"><b>Roll Number</b></label>
     <input type="text" placeholder="Enter Roll No." name="rollno" id="rollno" required>
 	<br><br>
     <label for="course"><b>Course ID</b></label>
-    <input type="text" placeholder="Enter Course ID" name="course" id="course" required>
+    <!-- <input type="text" placeholder="Enter Course ID" name="course" id="course" required> -->
+    <select id="course" name="course">
+    	<script type="text/javascript">
+    		var courses = {{jsoncourse|safe}}
+    	var arr = courses['courses']
+    	var list = document.getElementById('course')
+    for(var i=0;i<arr.length; i++){
+        console.log(arr[i])
+        var val = arr[i]
+        var list_elem = document.createElement('option')
+        list_elem.value = val
+        list_elem.textContent= val
+        list.appendChild(list_elem)
+    }
+    	</script>
+    	
+    </select>
 	<br><br>
     <label for="subject"><b>Subject</b></label>
     <input type="text" placeholder="Enter Subject" name="subject" id="subj" required>
     <br><br>
 
     <label for="attendance"><b>Present(1) or Absent(0)</b></label>
-    <input type="text" placeholder="Enter Subject" name="present" id="subj" required>
+    <input type="text" placeholder="Enter Attendance" name="present" id="subj" required>
     <br><br>
    <!--  <label for="Attendance"><b>Absent</b></label>
     <input type="radio" id="house-all-id" name="present" value="0"/>
@@ -127,9 +161,17 @@
 	 -->
 	<br><br>
 	<div class="clearfix">
-	      <button type="submit" class="submitbtn" name = "submit" onclick= "myfunction()">Submit</button>
+		  <button type="signup" class="cancelbtn" name="cancel">Cancel</button>
+	      <button type="submit" class="submitbtn" name = "submit" onclick= "myfunction()">Mark Attendance</button>
 	    </div>
 	</div>
-	<form>
+	</form>
+		<script type="text/javascript">
+		function myfunction(){
+			var data = {{json|safe}}
+			alert(data.message)
+		}
+	</script>
 	</body>
+	
 	</html>

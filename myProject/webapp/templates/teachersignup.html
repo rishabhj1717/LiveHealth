@@ -163,7 +163,7 @@ button:hover {
   }
   else
   {
-    if(!(document.form1.subject.value.match(letters)))
+    if(!(document.form1.subject.value.match(letters)) && !(document.form1.name.value.match(" ")))
     {
       alert("*Only Alphabets Are Allowed In subject Name");
       document.form1.subject.focus();
@@ -221,8 +221,23 @@ button:hover {
     <br><br>
     <!-- <input type = "button" onclick = "myFunction()">Test</input> -->
      <label for="dept"><b>Department</b></label>
-    <input type="text" placeholder="Enter Department" name="dept" required> 
-    
+     <select id="dept" name='dept'>
+       <script type="text/javascript">
+          var departments = {{jsondept|safe}};
+            var arr = departments['departments'];
+            var list = document.getElementById('dept');
+            for(var i=0;i<arr.length; i++){
+                console.log(arr[i])
+                var val = arr[i]
+                var list_elem = document.createElement('option')
+                list_elem.value = val
+                list_elem.textContent= val
+                list.appendChild(list_elem)
+            }
+       </script>
+     </select>
+    <!-- <input type="text" placeholder="Enter Department" name="dept" required> 
+     -->
     <!-- <select name="Dept" id="Dept">
       <option value="Comp">Comp</option>
       <option value="IT">IT</option>
@@ -230,8 +245,27 @@ button:hover {
     <br><br> -->
 
     <label for="course"><b>Course</b></label>
-    <input type="text" placeholder="Enter Course" name="course" required>
-
+    <select id='course' name='course'>
+      <script type="text/javascript">
+        var courses = {{jsoncourse|safe}};
+       var dept1 = document.getElementById('dept').value
+            var arr = courses['courses'];
+            var list = document.getElementById('course');
+            for(var i=0;i<arr.length; i++){
+                console.log(arr[i])
+                var temp = arr[i]
+                //if(temp[0]==dept1[0]){
+                var val = temp.substr(1,temp.length)
+                var list_elem = document.createElement('option')
+                list_elem.value = val
+                list_elem.textContent= val
+                list.appendChild(list_elem)
+              //}
+            }
+      </script>
+    </select>
+<!--     <input type="text" placeholder="Enter Course" name="course" required>
+ -->
     <!-- <select name="Course" id="Course">
       <option value="UG">UG</option>
       <option value="PG">PG</option>

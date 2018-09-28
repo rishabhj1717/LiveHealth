@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render,render_to_response
+from django.http import HttpResponse,JsonResponse
 from .models import Try,Parent,Department,Courses,Student,Teacher,TeacherResp,Subjects,studMarks,Attendance,Exam,StudentMarks,DailyAttendance
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -7,10 +7,11 @@ import logging
 from django.core.serializers import serialize
 from django.core import serializers
 import json
-from django.http import JsonResponse 
 import math
+import copy
 from datetime import datetime,date
 from dateutil import relativedelta
+from django.contrib import messages
 
 divchar = ord('A')
 
@@ -36,21 +37,79 @@ def detail(request):
 
 def adminControl(request):
 	if request.method == "POST" and 'enstudent' in request.POST:
+		obj = Department.objects.values('deptName')
+		obj1 = Courses.objects.values('courseName')
+		jsonmsg1={}
+		jsonmsg={}
+		arr = []
+		arr1=[]
+		j=0
+		k=0
+		for i in obj:
+			arr.append(obj[j]['deptName'])
+			j=j+1
+		#print(arr)
+		jsonmsg['departments']=arr
+		json_loads = json.dumps(jsonmsg)
+
+		for l in obj1:
+			arr1.append(obj1[k]['courseName'])
+			k=k+1
+		jsonmsg1['courses']=arr1
+		json_loads1 = json.dumps(jsonmsg1)	
+		context = {
+		'jsondept':json_loads,
+		'jsoncourse':json_loads1
+		}
+		print(json_loads1)
 		#Try.objects.create(roll=request.POST['roll'],name=request.POST['firstName'])
-		return render(request,"studentsignup.html")
+		return render(request,"studentsignup.html",context)
 	elif request.method == "POST" and 'enteacher' in request.POST:
 
-		#json_data = {"comp":1,"IT":2}
-		#data = Subjects.objects.filter(courseName='CUG')
-		json_data = serializers.serialize('json',Subjects.objects.all())
+		obj = Department.objects.values('deptName')
+		obj1 = Courses.objects.values('courseName')
+		jsonmsg1={}
+		jsonmsg={}
+		arr = []
+		arr1=[]
+		j=0
+		k=0
+		for i in obj:
+			arr.append(obj[j]['deptName'])
+			j=j+1
+		#print(arr)
+		jsonmsg['departments']=arr
+		json_loads = json.dumps(jsonmsg)
+
+		for l in obj1:
+			arr1.append(obj1[k]['courseName'])
+			k=k+1
+		jsonmsg1['courses']=arr1
+		json_loads1 = json.dumps(jsonmsg1)	
 		context = {
-		"json":json_data
+		'jsondept':json_loads,
+		'jsoncourse':json_loads1
 		}
+		print(json_loads1)
 		return render(request,"teachersignup.html",context)
 	elif request.method == "POST" and 'markupdate' in request.POST:
 		return render(request,"updatemarks.html")
 	elif request.method == "POST" and 'attupdate' in request.POST:
-		return render(request,"atttemp.html")
+		obj = Courses.objects.values('courseName')
+		jsonmsg1={}
+		arr1 = []
+		j=0
+		for i in obj:
+			arr1.append(obj[j]['courseName'])
+			j=j+1
+		#print(arr)
+		jsonmsg1['courses']=arr1
+		json_loads = json.dumps(jsonmsg1)
+		context = {
+		'jsoncourse':json_loads
+		}
+		print(json_loads)
+		return render(request,"atttemp.html",context)
 	elif request.method == "POST" and 'deleteStudent' in request.POST:
 		return render(request,"delete.html")
 	elif request.method == "POST" and 'setexam' in request.POST:
@@ -73,7 +132,36 @@ def adminControl(request):
 		}
 		print(json_loads)
 		return render(request,"addCourse.html",context)
+	elif request.method == "POST" and 'viewAttendance' in request.POST:
+		# -- Here the select box has to be done ----------------
+		return render(request,"attendenceviewperday.html")
+	elif request.method == "POST" and 'addSubjects' in request.POST:
+		obj = Department.objects.values('deptName')
+		obj1 = Courses.objects.values('courseName')
+		jsonmsg1={}
+		jsonmsg={}
+		arr = []
+		arr1=[]
+		j=0
+		k=0
+		for i in obj:
+			arr.append(obj[j]['deptName'])
+			j=j+1
+		#print(arr)
+		jsonmsg['departments']=arr
+		json_loads = json.dumps(jsonmsg)
 
+		for l in obj1:
+			arr1.append(obj1[k]['courseName'])
+			k=k+1
+		jsonmsg1['courses']=arr1
+		json_loads1 = json.dumps(jsonmsg1)	
+		context = {
+		'jsondept':json_loads,
+		'jsoncourse':json_loads1
+		}
+		print(json_loads1)
+		return render(request,'subjectadd.html',context)		
 
 
 
@@ -81,10 +169,22 @@ def adminSignup(request):
 	if request.method == "POST" and 'login' in request.POST:
 		name = request.POST['admin']
 		pwd = request.POST['password']
-
+		jsonmsg={}
 		if name=='admin' and pwd =='admin':
+			jsonmsg['message']='Successful sign in'
+			json_loads = json.dumps(jsonmsg)
+			context={
+			'admin':json_loads
+			}
+
 			return render(request,'adminindex.html')
 		else:
+			jsonmsg['message']='Incorrect Credentials'
+			json_loads = json.dumps(jsonmsg)
+			context={
+			'admin':json_loads
+			}
+			messages.error(request,'Invalid login credentials')
 			return render(request,'adminsignup.html')
 
 	elif request.method == "POST" and 'cancel' in request.POST:
@@ -105,6 +205,7 @@ def parControl(request):
 def signup(request):
 	if request.method == "POST" and 'signup' in request.POST:
 		if Parent.objects.filter(puname=request.POST['uname']).exists():
+			messages.error(request,'Username already exists. Please try out a new one.')
 			return render(request,'signup.html',{'message':'username already exists'})
 		else:
 			user = User.objects.create_user(username=request.POST['uname'],password=request.POST['pwd'])
@@ -129,8 +230,9 @@ def log_in(request):
 			"json":json_data,
 			"parent":json_data2,
 			}
-			return render(request,'parentinfo.html',context)
+			return render(request,'parentstudentinfo.html',context)
 		else:
+			messages.error(request,'Invalid Credentials. Please try again')
 			return render(request,'login.html',{'message':'incorrect password or username'})
 
 
@@ -199,6 +301,7 @@ def studentSignup(request):
 	#print(cnt)
 		cnt=cnt+1
 		roll = dept[:1]+course+str(cnt)
+		cid = dept[:1]+course
 	#print(roll)
 		print(doj)
 		today = str(date.today())
@@ -216,6 +319,9 @@ def studentSignup(request):
 			div='C'
 		elif 'IPG' in roll:
 			div='D'
+		else:
+			cnt1 = Courses.objects.all().count()
+			div=chr(cnt1+65)
 		Student.objects.create(name=name,phone=phone,emailP=email,address=address,dept=dept,course=course,doj=doj,puname_id=puname,attendance=0,div=div,roll_id=roll,sem=1)
 		return render(request,'adminindex.html',{'message':'successful entry'})
 	elif request.method == 'POST' and 'cancel' in request.POST:
@@ -230,15 +336,23 @@ def studentLogin(request):
 			if name == password:
 				#data = Student.objects.get(name)
 				json_data = serializers.serialize('json',Student.objects.filter(roll_id=name))
-				json_data1 = serializers.serialize('json',studMarks.objects.filter(roll=name))
-				context={
-				'json':json_data,
-				'marks':json_data1
-				}
+				if StudentMarks.objects.filter(roll=name).exists():
+					json_data1 = serializers.serialize('json',StudentMarks.objects.filter(roll=name))
+					context={
+					'json':json_data,
+					'marks':json_data1
+					}
+				else:
+					context={
+					'json':json_data,
+					'marks':{}
+					}
 				return render(request,'studentinfo.html',context)
 			else:
+				messages.error(request,'Invalid login credentials.Retry')
 				return render(request,'studentlogin.html')
 		else:
+			messages.error(request,'Student does not exist.')
 			return render(request,'studentlogin.html')
 	elif request.method == "POST" and 'cancel' in request.POST:
 		return render(request,'index.html')
@@ -310,8 +424,10 @@ def teacherLogin(request):
 				}
 				return render(request,'teacherinfo.html',context)
 			else:
+				messages.error(request,'Invalid Credentials')
 				return render(request,'teachersignin.html')
 		else:
+			messages.error(request,'Teacher does not exist')
 			return render(request,'teachersignin.html')
 	elif request.method == "POST" and 'cancel' in request.POST:
 		return render(request,'index.html')
@@ -392,13 +508,13 @@ def setExam(request):
 			return render(request,'adminindex.html')
 		print(eid)
 		if cid == 'CUG':
-			div='A'
-		elif cid=='CPG':
-			div='B'
-		elif cid=='IUG':
-			div='C'
-		elif cid=='IPG':
-			div='D'
+			div ='A'
+		elif cid == 'CPG':
+			div ='B'
+		elif cid == 'IUG':
+			div = 'C'
+		elif cid == 'IPG':
+			div ='D'
 
 		r = Student.objects.filter(div=div)
 		for i in r:
@@ -500,15 +616,51 @@ def markingAtt(request):
 
 def exam(request):
 	if request.method == "POST":
-		eid=1
+		eid=(Exam.objects.all().count())+1
 		sem = request.POST['sem']
 		div=request.POST['div']
 		subj=request.POST['subject']
-		courseid = 'CUG'
+		courseid = request.POST['course']
 		#today = str(date.today())
 		doe = request.POST['date']
 		print(doe)
+		print(sem)
 		doe1=""
+		# if sem=='1':
+		# 	if Subjects.objects.filter(sem1=subj).exists():
+		# 		Exam.objects.create(eid=eid,sem=sem,subj=subj,div=div,doexam=doe,courseId=courseid)
+		# 		print("Created Successfully")
+		# 		return render(request,'adminindex.html')
+		# 	else:
+		# 		print("In sem1")
+		# 		messages.error(request,'Incorrect Data')
+		# 		return render(request,'setexam.html')
+		# elif sem=='2':
+		# 	if Subjects.objects.filter(sem2=subj).exists():
+		# 		Exam.objects.create(eid=eid,sem=sem,subj=subj,div=div,doexam=doe,courseId=courseid)
+		# 		print("Created Successfully")
+		# 		return render(request,'adminindex.html')
+		# 	else:
+		# 		messages.error(request,'Incorrect Data')
+		# 		return render(request,'setexam.html')
+		# elif sem=='3':
+		# 	if Subjects.objects.filter(sem3=subj).exists():
+		# 		Exam.objects.create(eid=eid,sem=sem,subj=subj,div=div,doexam=doe,courseId=courseid)
+		# 		print("Created Successfully")
+		# 		return render(request,'adminindex.html')
+		# 	else:
+		# 		messages.error(request,'Incorrect Data')
+		# 		return render(request,'setexam.html')
+		# elif sem=='4':
+		# 	if Subjects.objects.filter(sem4=subj).exists():
+		# 		Exam.objects.create(eid=eid,sem=sem,subj=subj,div=div,doexam=doe,courseId=courseid)
+		# 		print("Created Successfully")
+		# 		return render(request,'adminindex.html')
+		# 	else:
+		# 		messages.error(request,'Incorrect Data')
+		# 		return render(request,'setexam.html')
+		# else:
+		# 	messages.error(request,'Incorrect Data')
 		Exam.objects.create(eid=eid,sem=sem,subj=subj,div=div,doexam=doe,courseId=courseid)
 		d = Exam.objects.filter(eid=eid)
 		doe1 = d[0].doexam
@@ -522,15 +674,23 @@ def marksUpdate(request):
 	if request.method=='POST':
 		roll = request.POST['roll']
 		subject=request.POST['subject']
-		doe = '2018-09-19'
-		eid=1
+		#doe = request.POST['date']
+		doe1 = str(date.today())
+		eid=0
 		marks = request.POST['marks']
+		if Exam.objects.filter(subj=subject).exists():
+			obj = Exam.objects.get(subj=subject)
+			doexam = obj.doexam
+			eid = obj.eid
+			print(doexam)
+		else:
+			messages.error(request,'Exam not set')
+			return render(request,'updatemarks.html')
+
 		if StudentMarks.objects.filter(roll=roll,subject=subject).exists():
 			d = StudentMarks.objects.get(roll=roll,subject=subject)
-			context={
-			'json':{'marks':d.marks,'message':'Marks already entered'}
-			}
-			return render(request,'updatemarks.html',context)
+			messages.error(request,'Marks already have been updated for the student')
+			return render(request,'updatemarks.html')
 		else:
 			isUpdated=1
 			isPresent  =1
@@ -553,17 +713,179 @@ def marksUpdate(request):
 	# 		roll = request.POST['rollno']
 	# 		course = 
 
+def attendanceViewPerDay(request):
+	if request.method=='POST':
+		tod_day = str(date.today())
+		isPresent = 0#request.POST['present']
+		course = request.POST['course']
+		#roll = request.POST['roll']
+		subject = request.POST['subject']
+		datef = request.POST['datef']
+		datet = request.POST['datet']
+		
+
+		obj = DailyAttendance.objects.filter(day__range=[datef,datet],course=course,subject=subject)
+		jsonarr=[]
+		j=0
+		for i in obj:
+			jsonmsg={}
+			jsonmsg['day'] = obj[j].day
+			if obj[j].isPresent==1:
+				jsonmsg['present'] = 'present'
+			else:
+				jsonmsg['present'] = 'absent'
+			jsonmsg['course']=obj[j].course
+			jsonmsg['roll']=obj[j].roll
+			jsonmsg['subject']=obj[j].subject
+			jsonarr.append(jsonmsg)
+			j=j+1
+
+		#json_loads = json.dumps(jsonmsg1)
+		# context={
+		# 'json':json_loads
+		# }
+		print(jsonarr)
+		return JsonResponse({'json':jsonarr})
+	
+		# if DailyAttendance.objects.filter(course=course,subject=subject,roll=roll,day=tod_day).exists():
+		# 	return JsonResponse({'foo':'bar'})
+		# else:
+		# 	DailyAttendance.objects.create(day=tod_day,isPresent=isPresent,course=course,roll=roll,subject=subject)
+		# cnt = DailyAttendance.objects.filter(roll=roll,subject=subject).count()
+		# obj = DailyAttendance.objects.filter(roll=roll,subject=subject)
+		# attlec=0
+		# for i in obj:
+		# 	if i.isPresent==1:
+		# 		attlec = attlec+1
+		# print(attlec/cnt)
+
 def attendancePerDay(request):
 	if request.method=='POST':
 		tod_day = str(date.today())
+		print(tod_day)
 		isPresent = request.POST['present']
 		course = request.POST['course']
 		roll = request.POST['rollno']
 		subject = request.POST['subject']
-		if DailyAttendance.objects.filter(course=course,subject=subject,roll=roll).exists():
-			return HttpResponse('<h1>Attendance has already been taken ')
+		div=""
+		if DailyAttendance.objects.filter(course=course,subject=subject,roll=roll,day=tod_day).exists():
+			messages.error(request,'Attendance has been taken')
+			obj = Courses.objects.values('courseName')
+			jsonmsg1={}
+			arr1 = []
+			j=0
+			for i in obj:
+				arr1.append(obj[j]['courseName'])
+				j=j+1
+			#print(arr)
+			jsonmsg1['courses']=arr1
+			json_loads = json.dumps(jsonmsg1)
+			context = {
+			'jsoncourse':json_loads
+			}
+			print(json_loads)
+			return render(request,'atttemp.html',context)
 		else:
 			DailyAttendance.objects.create(day=tod_day,isPresent=isPresent,course=course,roll=roll,subject=subject)
+		cnt = DailyAttendance.objects.filter(roll=roll,subject=subject).count()
+		obj = DailyAttendance.objects.filter(roll=roll,subject=subject)
+		attlec=0
+		for i in obj:
+			if i.isPresent==1:
+				attlec = attlec+1
+		cnt1 = DailyAttendance.objects.filter(roll=roll,isPresent=1).count()
+		cnt2 = DailyAttendance.objects.filter(roll=roll).count()
+		att = (cnt1/cnt2)*100
+		print(att)
+		d = Student.objects.get(roll_id=roll)
+		d.attendance=att
+		d.save()
+		print('successfully updated the attendance')
+		return render(request,'adminindex.html')
+	# elif request.method=='POST' and 'cancel' in request.POST:
+	# 	return render(request,'adminindex.html')
+		# if Student.objects.filter(roll_id=roll,course=course).exists():
+		# 	print ("In here")
+		# 	obj = Student.objects.get(roll_id=roll,course=course)
+		# 	obj.attendance = att;
+		# 	obj.save()
+		# 	context={
+		# 	'message':'attendance updated successfully'
+		# 	}
+		# 	return render(request,'adminindex.html',context)
+		# else:
+		# 	jsonmsg={}
+		# 	jsonmsg['message']='Incorrect Details'
+		# 	json_loads = json.dumps(jsonmsg)
+		# 	context={
+		# 	'json':json_loads
+		# 	}
+		# 	return render(request,'atttemp.html',context) 
+		
+		# flag = updateAtt(lecId,roll,cnt,attlec,div)
+		# if flag==0:
+		# 	context={
+		# 	'message':'Something went wrong'
+		# 	}
+		# 	return render(request,'atttemp.html',context)
+		# else:
+		# 	context={
+		# 	'message':'Attendance Updated successfully'
+		# 	}
+		# 	return render(request,'adminindex.html',context)
+
+# def updateAtt(lecId,roll,cnt,attlec,div):
+
+# 	roll1 = roll
+# 	eid = lecId
+# 	tot_lec = cnt
+# 	att_lec = attlec
+# 	r = Student.objects.filter(div=div)
+# 	for i in r:
+# 		roll = i.roll_id
+# 		if Attendance.objects.filter(lecId=eid,roll=roll).exists():
+# 			return 0
+# 		else:
+# 			Attendance.objects.create(lecId=eid,roll=roll)
+
+
+# 	# 	# calcAttendance(eid,roll1)
+# 	if Attendance.objects.filter(lecId=eid,roll=roll1).exists():
+# 		obj = Attendance.objects.get(lecId=eid,roll=roll1)
+# 		calcatt = (int(att_lec)/int(tot_lec))*100
+# 		print(calcatt)
+# 		obj.curratt = calcatt
+# 		obj.save()
+# 	else:
+# 		return 0
+
+# 	data = Attendance.objects.filter(roll=roll1)
+# 	avg=0
+# 	tempatt=0
+# 	for k in data:
+# 		tempatt =tempatt+ k.curratt
+# 		avg = avg+1
+# 		resatt = tempatt/avg
+# 		data1 = Student.objects.get(roll_id=roll1)
+# 		data1.attendance = resatt
+# 		data1.save()
+		
+# 	return 1
+	
+# def calcAttendance(prid,rollno):
+# 	calcatt=0
+# 	if Attendance.objects.filter(lecId=prid,roll=rollno):
+# 			obj = Attendance.objects.get(lecId=eid,roll=roll1)
+# 			calcatt = (att_lec/tot_lec)*100
+# 			print(calcatt)
+# 			obj.curratt = calcatt
+# 			obj.save()
+# 	else:
+# 		return render(request,'att1.html')
+# 	return
+
+	
+
 
 def addDepartment(request):
 	if request.method == "POST":
@@ -580,6 +902,7 @@ def addDepartment(request):
 			"json":json_data
 			}
 			print(context)
+			messages.error(request,'Department already exists')
 			return render(request,'dept.html',context)
 		else:
 			jsonmsg['isPresent']=1
@@ -590,7 +913,7 @@ def addDepartment(request):
 			}
 			print(context)
 			Department.objects.create(deptId=cnt+1,deptName=deptName)
-			return render(request,'dept.html',context)
+			return render(request,'adminindex.html',context)
 
 def addCourse(request):
 	if request.method == "POST":
@@ -598,16 +921,35 @@ def addCourse(request):
 		deptName = obj['dept']
 		courseName = obj['course']
 		courseName = deptName[0]+courseName
-		sem = obj['sem']
+		sem = 4
 		jsonmsg = {}
 		if Courses.objects.filter(deptName=deptName,courseName=courseName).exists():
 			jsonmsg['isPresent']=0
 			jsonmsg['message']='Course Already exists'
 			json_data = json.dumps(jsonmsg)
+			# context = {
+			# "json":json_data
+			# }
+
+
+			obj = Department.objects.values('deptName')
+			jsonmsg1={}
+			arr = []
+			j=0
+			for i in obj:
+				arr.append(obj[j]['deptName'])
+				j=j+1
+		#print(arr)
+			jsonmsg1['departments']=arr
+			json_loads = json.dumps(jsonmsg)
 			context = {
-			"json":json_data
+			'json':json_data,
+			'jsondept':json_loads
 			}
-			return render(request,'addCourse.html',context)
+			print(json_loads)
+
+			
+			return render(request,'adminindex.html',context)
 		else:
 			jsonmsg['isPresent']=1
 			jsonmsg['message']='Successful'
@@ -618,4 +960,60 @@ def addCourse(request):
 			Courses.objects.create(courseName=courseName,deptName=Department.objects.get(deptName=deptName),sem=sem)
 			return render(request,'adminindex.html',context)
 
-# def addSubject(request):
+def addSubject(request):
+	if request.method == 'POST' and 'submit' in request.POST:
+		obj = request.POST
+		dept = obj['dept']
+		course = obj['course']
+		subj1 = obj['subj1']
+		subj2 = obj['subj2']
+		subj3 = obj['subj3']
+		subj4 = obj['subj4']
+		subj5 = obj['subj5']
+		subj6 = obj['subj6']
+		subj7 = obj['subj7']
+		subj8 = obj['subj8']
+		a = insertSubject(subj1,subj3,subj5,subj7,course,dept)
+		a = insertSubject(subj2,subj4,subj6,subj8,course,dept)
+		if a==1:
+			messages.success(request,'Subjects entered successfully')
+			return render(request,'adminindex.html',{'message':'Save complete'})
+		else:
+			messages.error(request,'Something went wrong')
+			obj = Department.objects.values('deptName')
+			obj1 = Courses.objects.values('courseName')
+			jsonmsg1={}
+			jsonmsg={}
+			arr = []
+			arr1=[]
+			j=0
+			k=0
+			for i in obj:
+				arr.append(obj[j]['deptName'])
+				j=j+1
+			#print(arr)
+			jsonmsg['departments']=arr
+			json_loads = json.dumps(jsonmsg)
+	
+			for l in obj1:
+				arr1.append(obj1[k]['courseName'])
+				k=k+1
+			jsonmsg1['courses']=arr1
+			json_loads1 = json.dumps(jsonmsg1)	
+			context = {
+			'jsondept':json_loads,
+			'jsoncourse':json_loads1
+			}
+			print(json_loads1)
+			return render(request,'subjectadd.html',context)
+	elif request.method == 'POST' and 'cancel' in request.POST:
+		return render(request,'adminindex.html')
+
+
+def insertSubject(subj1,subj2,subj3,subj4,course,dept):
+	Subjects.objects.create(sem1=subj1,sem2=subj2,sem3=subj3,sem4=subj4,courseName=Courses.objects.get(courseName=course),deptName=Department.objects.get(deptName=dept))
+	return 1
+
+		
+
+

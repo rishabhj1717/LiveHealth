@@ -64,6 +64,15 @@ button:hover {
     display: table;
 }
 
+.error {
+    background-color: yellow;
+    text-align: center;
+    color: #af4c4c;
+    height: 38px;
+    font-size: 33px;
+    font-family: "Times New Roman", Times, serif;
+}
+
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 300px) {
     .cancelbtn, .signupbtn {
@@ -161,6 +170,15 @@ button:hover {
     <label for="password"><b>Password</b></label>
     <input type="password" name="pwd" required>
 
+    <div class='try1'>
+  {% if messages %}
+<div class='row'> 
+{% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
 
 
     <div class="clearfix">
@@ -172,3 +190,8 @@ button:hover {
 
 </body>
 </html>
+
+
+
+
+<!-- mobile number system for all phone validation using regular expression -->
