@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Table</title>
+    <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+button{
+    border-radius: 10px;
+    height: 45px;
+    width: 150px;
+    text-align: center;
+    background-color: #5499C7;
+    font-size: 15px;
+    color: #ffffff;
+    }
+  input{
+    height: 35px;
+    font-size: 15px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    text-align: center;
+    padding: 15px;
+    font-size: 13px;
+}
+th {
+    background-color: #5499C7;
+    color: white;
+    font-style: bold;
+    font-size: 25px;
+}
+</style>
+</head>
+<body>
+
+    Name of Parent : 
+<p id="demo0"></p><br>
+  Parent Email: 
+<p id="demo1"></p><br>
+  Parent Phone : 
+<p id="demo2"></p><br>
+
+<div style="margin-top: 50px;">
+    <button>View Child Info</button>
+    <div id="tableDiv" style="margin-top: 40px">
+      
+    </div>
+</div>
+<p id="p1"></p>
+</body>
+<script >
+
+ //      var json_obj  = {
+ //          "name":"John",
+ //          "age":30,
+ //          "cars": [
+ //        { "name":"Ford", "models":[ "Fiesta", "Focus", "Mustang" ] },
+ //        { "name":"BMW", "models":[ "320", "X3", "X5" ] },
+ //        { "name":"Fiat", "models":[ "500", "Panda","550" ] }
+ //    ]
+ // }
+
+
+         /*var json_obj = [ { "model": "webapp.student", "pk": "CPG1", "fields": { "name": "Rishabh", "phone": "7385862400", "emailP": "rishabhj1717@gmail.com", "address": "A4/38 Ravi Park, Wanaworie, Pune-40, Dhanshree Ceramics, Shop no 5, shaheen building Hidayutulla Road, Camp, Pune.", "dept": "Comp", "course": "PG", "doj": "2018-06-01", "puname": "lola", "sem": 1, "div": "B", "attendance": "0.00" } },
+          { "model": "webapp.student", "pk": "IPG2", "fields":{ "name": "Anil", "phone": "1234567890", "emailP": "abc@12.in", "address": "sdfghjkl", "dept": "IT", "course": "PG", "doj": "2018-06-01", "puname": "lola", "sem": 1, "div": "D", "attendance": "0.00" } },
+          { "model": "webapp.student", "pk": "IUG2", "fields": { "name": "abizer", "phone": "1234567890", "emailP": "abizer@12.in", "address": "kjhgfghjk", "dept": "IT", "course": "UG", "doj": "2018-06-01", "puname": "lola", "sem": 1, "div": "C", "attendance": "0.00" } }, 
+          { "model": "webapp.student", "pk": "IUG3", "fields": { "name": "Perrin", "phone": "2345678901", "emailP": "abc@12.in", "address": "sdfghjkl", "dept": "IT", "course": "UG", "doj": "2018-06-01", "puname": "lola", "sem": 1, "div": "C", "attendance": "0.00" } },
+          { "model": "webapp.student", "pk": "CPG1", "fields": { "name": "Rishabh", "phone": "7385862400", "emailP": "rishabhj1717@gmail.com", "address": "A4/38 Ravi Park, Wanaworie, Pune-40, Dhanshree Ceramics, Shop no 5, shaheen building Hidayutulla Road, Camp, Pune.", "dept": "Comp", "course": "PG", "doj": "2018-06-01", "puname": "lola", "sem": 1, "div": "B", "attendance": "0.00" } },
+          { "model": "webapp.student", "pk": "IPG2", "fields": { "name": "Anil", "phone": "1234567890", "emailP": "abc@12.in", "address": "sdfghjkl", "dept": "IT", "course": "PG", "doj": "2018-06-01", "puname": "lola", "sem": 1, "div": "D", "attendance": "0.00" } },
+          { "model": "webapp.student", "pk": "IUG2", "fields": { "name": "abizer", "phone": "1234567890", "emailP": "abizer@12.in", "address": "kjhgfghjk", "dept": "IT", "course": "UG", "doj": "2018-06-01", "puname": "lola", "sem": 1, "div": "C", "attendance": "0.00" } },
+          { "model": "webapp.student", "pk": "IUG3", "fields": { "name": "Perrin", "phone": "2345678901", "emailP": "abc@12.in", "address": "sdfghjkl", "dept": "IT", "course": "UG", "doj": "2018-06-01", "puname": "lola", "sem": 1, "div": "C", "attendance": "0.00" } } ]*/
+
+          var json_obj = {{json|safe}}
+
+         var myObj = {{parent|safe}}
+
+
+          document.getElementById("demo0").innerHTML = myObj[0]["fields"]["name"];
+          document.getElementById("demo1").innerHTML = myObj[0]["fields"]["emailP"];
+          document.getElementById("demo2").innerHTML =myObj[0]["fields"]["phone"];
+
+        $(document).ready(function(){
+            $("button").click(function(){
+              var number_of_rows = json_obj.length;
+              var k = 0;
+              var table_body = '<table border="1" id="example"><thead><tr><th>Name</th><th>Rollno</th><th>Phone</th><th>Email</th><th>Department</th><th>Course</th><th>DOJ</th><th>Semester</th><th>Division</th><th>Attendance</th></tr></thead><tbody>';
+              for(j in json_obj){
+              //for(i =0;i<json_obj.length;i++){
+                    table_body+='<tr>';
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["fields"].name;
+                    table_body +='</td>';
+                   
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["pk"];
+                    table_body +='</td>';
+
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["fields"].phone;
+                    table_body +='</td>';
+
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["fields"].emailP;
+                    table_body +='</td>';
+
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["fields"].dept;
+                    table_body +='</td>';
+
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["fields"].course;
+                    table_body +='</td>';
+
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["fields"].doj;
+                    table_body +='</td>';
+
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["fields"].sem;
+                    table_body +='</td>';
+
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["fields"].div;
+                    table_body +='</td>';
+
+                    table_body +='<td>';
+                    table_body +=json_obj[k]["fields"].attendance;
+                    table_body +='</td>';
+                
+                    table_body+='</tr>';
+              //}
+              k++;
+            }
+                table_body+='</tbody></table>';
+               $('#tableDiv').html(table_body);
+              //display data..........
+            });
+      });
+</script>
+
+</html>

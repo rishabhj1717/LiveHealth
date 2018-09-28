@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<style type="text/css">
+	body {
+    margin:50px 0; 
+    padding:0;
+    text-align:center;
+}
+.error {
+    background-color: yellow;
+    text-align: center;
+    color: #af4c4c;
+    height: 38px;
+    font-size: 33px;
+    font-family: "Times New Roman", Times, serif;
+}
+</style>
+<body>
+	<h2>ADD SUBJECTS</h2>
+	<form id="form1" method="POST" action="addsubject">
+		{% csrf_token %}
+			 <label>Select Department </label>
+			<select id="dept" name="dept">
+				<script type="text/javascript">
+					var departments = {{jsondept|safe}};
+    				var arr = departments['departments'];
+    				var list = document.getElementById('dept');
+    				for(var i=0;i<arr.length; i++){
+       				 	console.log(arr[i])
+        				var val = arr[i]
+        				var list_elem = document.createElement('option')
+        				list_elem.value = val
+        				list_elem.textContent= val
+        				list.appendChild(list_elem)
+    				}
+				</script>
+			<!-- <option value="comp">Computer</option>
+			<option value="IT">Information Technology</option> -->
+			</select>
+
+            <br /><br /><br /><br />
+            <label>Select Course </label>
+            <select id="course" name="course">
+            	<script type="text/javascript">
+            		var courses = {{jsoncourse|safe}};
+    				var arr = courses['courses'];
+    				var list = document.getElementById('course');
+    				for(var i=0;i<arr.length; i++){
+       				 	console.log(arr[i])
+        				var val = arr[i]
+        				var list_elem = document.createElement('option')
+        				list_elem.value = val
+        				list_elem.textContent= val
+        				list.appendChild(list_elem)
+    				}
+            	</script>
+			<!-- <option value="UG">Under-Graduate</option>
+			<option value="PG">Post-Graduate</option> -->
+			</select>
+            <br /><br /><br /><br />
+
+            <!-- <label>Select Semester </label>
+            <select id="sem" name="sem">
+			<option value="sem1">Semester 1</option>
+			<option value="sem2">Semester 2</option>
+			<option value="sem3">Semester 3</option>
+			<option value="sem4">Semester 4</option>
+			</select>
+			<br /><br /><br /><br /> -->
+			</div>
+<div class='container'>
+	{% if messages %}
+<div class='row'>	
+{% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
+
+
+
+	<div class="row">
+    <div class="col-lg-12">
+        <div class="input-group">
+        	<h2>Semester 1</h2>
+            <label>Subject 1</label>
+            <input type="text" value="" name="subj1"/>&nbsp;&nbsp;
+            <label>Subject 2</label>&nbsp;
+            <input type="text" value="" name="subj2"/>&nbsp;&nbsp;
+        </div><br /><br />
+        <div class="input-group">
+        	<h2>Semester 2</h2>
+            <label>Subject 1</label>
+            <input type="text" value="" name="subj3"/>&nbsp;&nbsp;
+            <label>Subject 2</label>&nbsp;
+            <input type="text" value="" name="subj4"/>&nbsp;&nbsp;
+        </div><br /><br />
+        <div class="input-group">
+        	<h2>Semester 3</h2>
+            <label>Subject 1</label>
+            <input type="text" value="" name="subj5"/>&nbsp;&nbsp;
+            <label>Subject 2</label>&nbsp;
+            <input type="text" value="" name="subj6"/>&nbsp;&nbsp;
+        </div><br /><br />
+        <div class="input-group">
+        	<h2>Semester 4</h2>
+            <label>Subject 1</label>
+            <input type="text" value="" name="subj7"/>&nbsp;&nbsp;
+            <label>Subject 2</label>&nbsp;
+            <input type="text" value="" name="subj8"/>&nbsp;&nbsp;
+        </div><br /><br />
+    </div>
+
+</form>
+<button type="submit" form="form1" value="Submit" name='submit'>Submit</button>
+<button type="cancel" form="form1" calue="cancel" name='cancel'>Cancel</button>
+</body>
+</html>
